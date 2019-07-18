@@ -27,7 +27,7 @@ install. It will disable the prompt accordingly after uninstall.
 %setup -q
 
 %if 0%{?fedora} >= 30
-%patch -p1
+%patch0 -p1
 %endif
 
 %build
