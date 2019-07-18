@@ -1,0 +1,9 @@
+diff -Naur bash-git-prompt-2.7.1_orig/gitstatus.py bash-git-prompt-2.7.1/gitstatus.py
+--- bash-git-prompt-2.7.1_orig/gitstatus.py	2019-07-18 18:31:01.039217640 +0200
++++ bash-git-prompt-2.7.1/gitstatus.py	2019-07-18 18:31:23.434720133 +0200
+@@ -1,4 +1,4 @@
+-#!/usr/bin/env python
++#!/usr/bin/env python2
+ # -*- coding: UTF-8 -*-
+ 
+ """This module defines a Print function to use with python 2.x or 3.x., so we can use the prompt with older versions of

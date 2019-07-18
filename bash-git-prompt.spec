@@ -3,7 +3,7 @@
 
 Name:		bash-git-prompt
 Version:	2.7.1
-Release:	1%{?dist}
+Release:	2%{?dist}
 Summary:	Informative git prompt for bash and fish
 
 Group:		Development/Tools
@@ -12,6 +12,10 @@ URL:		https://github.com/magicmonty/bash-git-prompt.git
 Source0:    	https://github.com/magicmonty/bash-git-prompt/archive/%{version}/%{name}-%{version}.tar.gz
 Requires:       git
 BuildArch:      noarch
+
+%if 0%{?fedora} >= 30
+Patch0:         ambiguous-python-patch.patch
+%endif
 
 %description
 A bash prompt that displays information about the current git repository. In particular the branch name, difference with remote branch, number of files staged, changed, etc.
@@ -22,6 +26,9 @@ install. It will disable the prompt accordingly after uninstall.
 %prep
 %setup -q
 
+%if 0%{?fedora} >= 30
+%patch -p1
+%endif
 
 %build
 
@@ -72,6 +79,9 @@ sed -i -e '/^%{START_TOKEN}/, /^%{END_TOKEN}/{d}' /etc/bashrc
 
 
 %changelog
+* Thu Jul 18 2019 Jerzy Drozdz <rpmbuilder@jdsieci.pl> - 2.7.1-2
+- Fixed ambiguous python interpreter
+
 * Thu Jan 25 2018 Jerzy Drozdz <rpmbuilder@jdsieci.pl> - 2.7.1-1
 - update to version 2.7.1
 
