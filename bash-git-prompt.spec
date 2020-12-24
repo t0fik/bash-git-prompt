@@ -3,7 +3,7 @@
 
 Name:		bash-git-prompt
 Version:	2.7.1
-Release:	2%{?dist}
+Release:	3%{?dist}
 Summary:	Informative git prompt for bash and fish
 
 Group:		Development/Tools
@@ -13,9 +13,7 @@ Source0:    	https://github.com/magicmonty/bash-git-prompt/archive/%{version}/%{
 Requires:       git
 BuildArch:      noarch
 
-%if 0%{?fedora} >= 30
-Patch0:         ambiguous-python-patch.patch
-%endif
+BuildRequires:  python%{python3_pkgversion}-devel 
 
 %description
 A bash prompt that displays information about the current git repository. In particular the branch name, difference with remote branch, number of files staged, changed, etc.
@@ -26,9 +24,6 @@ install. It will disable the prompt accordingly after uninstall.
 %prep
 %setup -q
 
-%if 0%{?fedora} >= 30
-%patch0 -p1
-%endif
 
 %build
 
@@ -44,6 +39,8 @@ install -pm 644 README.md %{buildroot}%{_datadir}/%{name}
 install -d 755 %{buildroot}%{_datadir}/%{name}/themes
 install -pm 644 themes/*.bgptheme %{buildroot}%{_datadir}/%{name}/themes
 install -pm 644 themes/*.bgptemplate %{buildroot}%{_datadir}/%{name}/themes
+
+pathfix.py -i "%{__python3} %{py3_shbang_opts}u" -p -n %{buildroot}%{_datadir}/%{name}/gitstatus.py
 
 # never include compiled Python program
 rm -fr  %{buildroot}%{_datadir}/%{name}/*.pyo
@@ -79,6 +76,9 @@ sed -i -e '/^%{START_TOKEN}/, /^%{END_TOKEN}/{d}' /etc/bashrc
 
 
 %changelog
+* Thu Dec 24 2020 Jerzy Drozdz <rpmbuilder@jdsieci.pl> - 2.7.1-3
+- ambiguous python interpreter fixed by use of pathfix.py
+
 * Thu Jul 18 2019 Jerzy Drozdz <rpmbuilder@jdsieci.pl> - 2.7.1-2
 - Fixed ambiguous python interpreter
 
