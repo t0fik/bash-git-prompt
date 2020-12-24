@@ -26,6 +26,7 @@ install. It will disable the prompt accordingly after uninstall.
 
 
 %build
+pathfix.py -i "%{__python3} %{py3_shbang_opts}u" -p -n gitstatus.py
 
 
 %install
@@ -39,8 +40,6 @@ install -pm 644 README.md %{buildroot}%{_datadir}/%{name}
 install -d 755 %{buildroot}%{_datadir}/%{name}/themes
 install -pm 644 themes/*.bgptheme %{buildroot}%{_datadir}/%{name}/themes
 install -pm 644 themes/*.bgptemplate %{buildroot}%{_datadir}/%{name}/themes
-
-pathfix.py -i "%{__python3} %{py3_shbang_opts}u" -p -n %{buildroot}%{_datadir}/%{name}/gitstatus.py
 
 # never include compiled Python program
 rm -fr  %{buildroot}%{_datadir}/%{name}/*.pyo
