@@ -13,8 +13,6 @@ Source0:    	https://github.com/magicmonty/bash-git-prompt/archive/%{version}/%{
 Requires:       git
 BuildArch:      noarch
 
-BuildRequires:  python%{python3_pkgversion}-devel 
-
 %description
 A bash prompt that displays information about the current git repository. In particular the branch name, difference with remote branch, number of files staged, changed, etc.
 
@@ -26,8 +24,7 @@ install. It will disable the prompt accordingly after uninstall.
 
 
 %build
-pathfix.py -i "%{__python3} %{py3_shbang_opts}u" -p -n gitstatus.py
-
+sed --in-place "s:\(#!\)\s*/usr.*:\1%{__python3}:" gitstatus.py
 
 %install
 rm -rf %{buildroot}
@@ -76,7 +73,7 @@ sed -i -e '/^%{START_TOKEN}/, /^%{END_TOKEN}/{d}' /etc/bashrc
 
 %changelog
 * Thu Dec 24 2020 Jerzy Drozdz <rpmbuilder@jdsieci.pl> - 2.7.1-3
-- ambiguous python interpreter fixed by use of pathfix.py
+- ambiguous python interpreter fixed in build
 
 * Thu Jul 18 2019 Jerzy Drozdz <rpmbuilder@jdsieci.pl> - 2.7.1-2
 - Fixed ambiguous python interpreter
