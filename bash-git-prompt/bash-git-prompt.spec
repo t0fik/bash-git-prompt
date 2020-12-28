@@ -24,9 +24,6 @@ install. It will disable the prompt accordingly after uninstall.
 
 
 %build
-pwd
-ls -la
-ls -la %{_builddir}
 sed --in-place "s:\(#!\)\s*/usr.*:\1%{__python3}:" gitstatus.py
 
 %install
