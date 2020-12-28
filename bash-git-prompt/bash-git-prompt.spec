@@ -3,13 +3,14 @@
 
 Name:		bash-git-prompt
 Version:	2.7.1
-Release:	4%{?dist}
+Release:	5%{?dist}
 Summary:	Informative git prompt for bash and fish
 
 Group:		Development/Tools
 License:	GPL
 URL:		https://github.com/magicmonty/bash-git-prompt.git
 Source0:    	https://github.com/magicmonty/bash-git-prompt/archive/%{version}/%{name}-%{version}.tar.gz
+Source1:        bash-git-prompt.sh
 Requires:       git
 BuildArch:      noarch
 
@@ -25,15 +26,21 @@ install. It will disable the prompt accordingly after uninstall.
 
 %build
 sed --in-place "s:\(#!\)\s*/usr.*:\1%{__python3}:" gitstatus.py
+sed --in-place "s:#DATADIR#:%{_datadir}/%{name}:" %{SOURCE1}
 
 %install
 
-install -d 755 %{buildroot}%{_datadir}/%{name}
+install -dm 755 %{buildroot}%{_datadir}/%{name}
+install -dm 755 %{buildroot}%{_sysconfdir}/profile.d/
+
+install -pm 644 %{SOURCE1} %{buildroot}%{_sysconfdir}/profile.d/
+
 install -pm 755 *.sh %{buildroot}%{_datadir}/%{name}
 install -pm 755 *.py %{buildroot}%{_datadir}/%{name}
 install -pm 755 *.fish %{buildroot}%{_datadir}/%{name}
 install -pm 644 README.md %{buildroot}%{_datadir}/%{name}
-install -d 755 %{buildroot}%{_datadir}/%{name}/themes
+
+install -dm 755 %{buildroot}%{_datadir}/%{name}/themes
 install -pm 644 themes/*.bgptheme %{buildroot}%{_datadir}/%{name}/themes
 install -pm 644 themes/*.bgptemplate %{buildroot}%{_datadir}/%{name}/themes
 
@@ -49,28 +56,13 @@ rm -rf %{buildroot}
 %files
 %defattr(-,root,root,-)
 %{_datadir}/%{name}
-
-
-%post
-# enable bash-git-prompt
-cat << EOF >> /etc/bashrc
-%{START_TOKEN}
-if [ -f %{_datadir}/%{name}/gitprompt.sh ]; then
-    # Set config variables first
-
-    GIT_PROMPT_ONLY_IN_REPO=1
-    GIT_PROMPT_THEME=Default
-    source %{_datadir}/%{name}/gitprompt.sh
-fi
-%{END_TOKEN}
-EOF
-
-%postun
-# remove bash-git-prompt setup
-sed -i -e '/^%{START_TOKEN}/, /^%{END_TOKEN}/{d}' /etc/bashrc
+%{_sysconfdir}/profile.d/bash-git-prompt.sh
 
 
 %changelog
+* Mon Dec 28 2020 Jerzy Drozdz <rpmbuilder@jdsieci.pl> - 2.7.1-5
+- Script enabling prompt moved to seperate file
+
 * Mon Dec 28 2020 Jerzy Drozdz <rpmbuilder@jdsieci.pl> - 2.7.1-4
 - Removed cleaning buildroot directory
 
