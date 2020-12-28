@@ -3,7 +3,7 @@
 
 Name:		bash-git-prompt
 Version:	2.7.1
-Release:	3%{?dist}
+Release:	4%{?dist}
 Summary:	Informative git prompt for bash and fish
 
 Group:		Development/Tools
@@ -26,10 +26,10 @@ install. It will disable the prompt accordingly after uninstall.
 %build
 pwd
 ls -la
+ls -la %{_builddir}
 sed --in-place "s:\(#!\)\s*/usr.*:\1%{__python3}:" gitstatus.py
 
 %install
-rm -rf %{buildroot}
 
 install -d 755 %{buildroot}%{_datadir}/%{name}
 install -pm 755 *.sh %{buildroot}%{_datadir}/%{name}
@@ -74,6 +74,9 @@ sed -i -e '/^%{START_TOKEN}/, /^%{END_TOKEN}/{d}' /etc/bashrc
 
 
 %changelog
+* Mon Dec 28 2020 Jerzy Drozdz <rpmbuilder@jdsieci.pl> - 2.7.1-4
+- Removed cleaning buildroot directory
+
 * Thu Dec 24 2020 Jerzy Drozdz <rpmbuilder@jdsieci.pl> - 2.7.1-3
 - ambiguous python interpreter fixed in build
 
