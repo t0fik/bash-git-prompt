@@ -1,4 +1,4 @@
-if [[ -f #DATADIR#/gitprompt.sh ]]; then
+if [[ ${SHELL} =~ /bash$ ]] && [[ -f #DATADIR#/gitprompt.sh ]]; then
     # Set config variables first
 
     GIT_PROMPT_ONLY_IN_REPO=1

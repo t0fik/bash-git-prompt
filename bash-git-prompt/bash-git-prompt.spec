@@ -3,7 +3,7 @@
 
 Name:		bash-git-prompt
 Version:	2.7.1
-Release:	5%{?dist}
+Release:	6%{?dist}
 Summary:	Informative git prompt for bash and fish
 
 Group:		Development/Tools
@@ -60,6 +60,9 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Mon Jan  4 2021 Jerzy Drozdz <rpmbuilder@jdsieci.pl> - 2.7.1-6
+- Added shell checking conditional
+
 * Mon Dec 28 2020 Jerzy Drozdz <rpmbuilder@jdsieci.pl> - 2.7.1-5
 - Script enabling prompt moved to seperate file
 
